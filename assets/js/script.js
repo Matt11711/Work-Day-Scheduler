@@ -1,18 +1,27 @@
 var currentItem = {}
-// function loadTasks() {
-//    calendarList.each(function() {
-// //        for (var i=9;i<=17; i++) {
-// //     var currentID = JSON.parse(localStorage.getItem(i))
-// //     // console.log(currentID)
-// //     console.log($(this).attr("id"))
-// //        if (($(this).attr("id"))=== i ) {
-// //        $(this).text(currentID)
-// //    }}
-// console.log(this)
-// })}
 
 var calendarList = $(".calendarList")
+function checkTime() {
+var currentTime = moment().hour()
+for (var i=9;i<=17; i++) {
 
+    var currentSchedule = $('#'+i).children("textarea")
+    currentSchedule.removeClass("bg-secondary bg-danger bg-success")
+    if (currentTime<i) {
+currentSchedule.addClass("bg-success")
+    }
+    else if (currentTime===i) {
+        currentSchedule.addClass("bg-danger")
+    }
+    else {
+        currentSchedule.addClass("bg-secondary") 
+    }
+   $("#"+i).children("textarea").val(currentSchedule)
+      
+   }
+}
+
+checkTime()
 function loadTasks() {
     for (var i=9;i<=17; i++) {
 
@@ -34,7 +43,5 @@ schedule: currentSchedule
     localStorage.setItem(currentId, JSON.stringify(currentSchedule))
 })
 
-// $(".calendarList").on("change","<textarea>", function() {
-// $(this).text()
-// })
+
 loadTasks()
