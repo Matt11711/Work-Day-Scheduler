@@ -2,26 +2,28 @@ var currentItem = {}
 
 var calendarList = $(".calendarList")
 function checkTime() {
-var currentTime = moment().hour()
+var currentHour = moment().hour()
 for (var i=9;i<=17; i++) {
 
     var currentSchedule = $('#'+i).children("textarea")
     currentSchedule.removeClass("bg-secondary bg-danger bg-success")
-    if (currentTime<i) {
+    if (currentHour<i) {
 currentSchedule.addClass("bg-success")
     }
-    else if (currentTime===i) {
+    else if (currentHour===i) {
         currentSchedule.addClass("bg-danger")
     }
     else {
         currentSchedule.addClass("bg-secondary") 
     }
-   $("#"+i).children("textarea").val(currentSchedule)
+   
       
    }
+  
+   $('#currentDay').text(moment().format('dddd, MMMM Do'))
 }
 
-checkTime()
+
 function loadTasks() {
     for (var i=9;i<=17; i++) {
 
@@ -30,6 +32,7 @@ function loadTasks() {
            $("#"+i).children("textarea").val(currentSchedule)
               
            }
+           checkTime()
 }
 $(calendarList).on("click","button",function() {
     var currentId= $(this).parent().attr("id")
@@ -38,10 +41,10 @@ $(calendarList).on("click","button",function() {
         id: currentId,
 schedule: currentSchedule
     }
-    console.log(currentItem)
-    console.log($(this).text())
+   
     localStorage.setItem(currentId, JSON.stringify(currentSchedule))
 })
 
 
 loadTasks()
+setInterval(checkTime,(60*1000))
